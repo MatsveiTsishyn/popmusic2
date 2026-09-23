@@ -6,7 +6,7 @@ import time
 import tempfile
 from pathlib import Path
 from popmusic2.utils import validate_pdb_path, validate_mutations_list, validate_csv_path, validate_sep
-from popmusic2.utils import list_mutations, write_map_to_csv, write_music_mutations_file, parse_pop
+from popmusic2.utils import list_mutations, write_map_to_csv, parse_pop, write_mutations_file
 from popmusic2.config import CONFIG
 
 
@@ -87,7 +87,7 @@ def popmusic2(
         # Generate mutation file
         if log_debug:
             print(f"   - Generate mfile to '{mfile_path}'")
-        write_music_mutations_file(mutations_list, mfile_path)
+        write_mutations_file(mutations_list, mfile_path, music_format=True)
 
         # Copy original PDB into working dir
         tmp_pdb_path = io_dir / f"{pdb_name}.pdb"
