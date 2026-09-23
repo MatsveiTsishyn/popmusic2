@@ -53,6 +53,13 @@ def popmusic2(
         validate_csv_path(save_path)
     validate_music_energy_dir(CONFIG.get_music_energy_dir(symmetric=symmetric))
 
+    # List single mutations
+    single_mutations_list: list[str] = []
+    for mutation in mutations_list:
+        for single_mutation in mutation.split(":"):
+            single_mutations_list.append(single_mutation)
+    single_mutations_list = list(dict.fromkeys(single_mutations_list))
+
     # Init
     music_path = CONFIG.get_music_executable_path(custom_music_path)  # algo will config it globally
     pdb_path = Path(pdb_path).absolute()
@@ -89,7 +96,7 @@ def popmusic2(
         # Generate mutation file
         if log_debug:
             print(f"   - Generate mfile to '{mfile_path}'")
-        write_mutations_file(mutations_list, mfile_path, music_format=True)
+        write_mutations_file(single_mutations_list, mfile_path, music_format=True)
 
         # Copy original PDB into working dir
         tmp_pdb_path = io_dir / f"{pdb_name}.pdb"
@@ -133,12 +140,18 @@ def popmusic2(
         if log_steps:
             print(f" - Parse MuSiC output file '{ddg_path}' ...")
         try:
-            ddg_map = parse_pop(ddg_path)
+            ddg_map_single = parse_pop(ddg_path)
         except Exception as err:
             raise ValueError(
                 f"Failed to parse PoPMuSiC2 output file '{ddg_path}': "
                 f" error: {err}"
             )
+
+    # Collects mutations values
+    ddg_map: dict[str, float] = {}
+    for mutation in mutations_list:
+        single_mutations = mutation.split(":")
+        ddg_map[mutation] = sum([ddg_map_single[m] for m in single_mutations])
 
     # Save output to a .csv file
     if save_path is not None:
