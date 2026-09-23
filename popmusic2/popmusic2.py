@@ -5,7 +5,7 @@ import subprocess
 import time
 import tempfile
 from pathlib import Path
-from popmusic2.utils import validate_pdb_path, validate_mutations_list, validate_csv_path, validate_sep
+from popmusic2.utils import validate_pdb_path, validate_mutations_list, validate_csv_path, validate_sep, validate_music_energy_dir
 from popmusic2.utils import list_mutations, write_map_to_csv, parse_pop, write_mutations_file
 from popmusic2.config import CONFIG
 
@@ -37,8 +37,9 @@ def popmusic2(
         music_output_dir: Optional path to directory for MuSiC outputs (otherwise side-effects outputs will be deleted)
         custom_music_path: Optional path to a MuSiC executable.
 
-    Returns: {mut (str): ΔΔG (float)}
+    Returns:
         A dictionary mapping each mutation to the corresponding ΔΔG value.
+        {mut (str): ΔΔG (float)}
     """
     
     # Guardians
@@ -50,6 +51,7 @@ def popmusic2(
     if save_path is not None:
         validate_sep(sep)
         validate_csv_path(save_path)
+    validate_music_energy_dir(CONFIG.get_music_energy_dir(symmetric=symmetric))
 
     # Init
     music_path = CONFIG.get_music_executable_path(custom_music_path)  # algo will config it globally

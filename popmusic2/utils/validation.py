@@ -160,3 +160,25 @@ def explain_single_mutation_error(single_mutation: str, mutations_set: set[str])
         wt_real = wt_aa_map[resid]
         return f"mutation wild-type amino acid '{wt}' does not match amino acid in 3D structure '{wt_real}' at position '{resid}'"
     
+def validate_music_energy_dir(music_energy_dir: str | Path) -> None:
+    """Verify is `music_energy_dir` is valid potentials directory."""
+
+    # Search PM_coeff.in
+    coeff_path = Path(music_energy_dir) / "PM_coeff.in"
+    if not coeff_path.is_file():
+        raise FileNotFoundError(f"No MuSiC-energy coefficients file found in '{music_energy_dir}'.")
+    sa_path = Path(music_energy_dir) / "sa.enc"
+    if not sa_path.is_file():
+        raise FileNotFoundError(f"No MuSiC-energy sa-potential ('sa.enc') file found in '{music_energy_dir}'.")
+    if not has_at_least_n_lines(sa_path, 200):
+        raise ValueError(
+            f"Invalid MuSiC 'sa.enc' potential energy file '{sa_path}': \n"
+            f"file contains less than 200 lines, which indicates that potentials energies files are probably empty."
+        )
+
+def has_at_least_n_lines(filepath: str | Path, n: int) -> bool:
+    with open(filepath, "r") as fs:
+        for i, line in enumerate(fs, start=1):
+            if i >= n:
+                return True
+    return False
