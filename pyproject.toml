@@ -28,6 +28,7 @@ urls = { Homepage = "https://github.com/MatsveiTsishyn/popmusic2" }
 # Entry Points for CLI ---------------------------------------------------------
 [project.scripts]
 popmusic2 = "popmusic2.cli_popmusic2:main"
+music_help = "popmusic2.cli_music_help:main"
 
 # Setup pip Package ------------------------------------------------------------
 # this finds all the python packages recursively
