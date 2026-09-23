@@ -1,0 +1,36 @@
+
+# Pip Build Setup --------------------------------------------------------------
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+# Pip Package Metadata ---------------------------------------------------------
+[project]
+name = "pypopmusic2"
+version = "1.0.0"
+description = "Run mutational DMS analysis with PoPMuSiC-2 and BeAtMuSiC."
+readme = "README.md"
+authors = [
+  { name = "Matsvei Tsishyn", email = "matsvei.tsishyn@protonmail.com" },
+]
+requires-python = ">=3.10"
+license = "MIT"
+dependencies = []
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: C++",
+  "Programming Language :: C",
+  "Operating System :: OS Independent",
+  "Topic :: Scientific/Engineering :: Bio-Informatics"
+]
+urls = { Homepage = "https://github.com/MatsveiTsishyn/pypopmusic2" }
+
+# Entry Points for CLI ---------------------------------------------------------
+[project.scripts]
+pypopmusic2 = "pypopmusic2.cli_popmusic2:main"
+
+# Setup pip Package ------------------------------------------------------------
+# this finds all the python packages recursively
+[tool.setuptools]
+packages = { find = {} }
+include-package-data = true

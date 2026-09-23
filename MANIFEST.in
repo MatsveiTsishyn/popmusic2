@@ -1,0 +1,14 @@
+# Exclude/Include files and directories that should not be in the package
+exclude conda-env.yml
+exclude test_data/*
+prune test_data
+
+global-exclude *.py[cod]
+global-exclude __pycache__/*
+global-exclude 0_*
+global-exclude *.so
+global-exclude *.a
+global-exclude *.o
+
+# Exclude build artifacts
+global-exclude *.egg-info/*

@@ -1,0 +1,15 @@
+# Ignore cache build and config files
+__pycache__/
+build/
+dist/
+pypopmusic2.egg-info/
+.vscode/
+
+# Ignore notes, experiments and tests files
+0_*
+out/
+
+# Ignore compiled files
+*.so
+*.a
+*.o
