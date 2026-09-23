@@ -38,3 +38,47 @@ class CONFIG:
             candidate_paths = [str(custom_path)] + candidate_paths
         cls.music_path = find_executable(candidate_paths)
         return cls.music_path
+
+    @classmethod
+    def get_music_dir(cls) -> str:
+        """Return path to MuSiC source code directory."""
+        music_executable_path = Path(cls.get_music_executable_path())
+        music_dir = music_executable_path.parent
+        if not music_dir.is_dir():
+            raise ValueError(f"MuSiC source code directory '{music_dir}' not found.")
+        return str(music_dir)
+
+    @classmethod
+    def get_music_data_dir(cls) -> str:
+        """Return path to MuSiC 'Data' directory."""
+        music_dir = Path(cls.get_music_dir())
+        music_data_dir = music_dir / "MuSiC" / "Data"
+        if not music_data_dir.is_dir():
+            raise ValueError(f"MuSiC Data directory '{music_data_dir}' not found.")
+        return str(music_data_dir)
+
+    @classmethod
+    def get_music_energy_dir(cls, symmetric: bool=False) -> str:
+        """Return path to MuSiC energy directory (for standard or symmetric energy potentials)."""
+        pot_folder = "energy_music_sym" if symmetric else "energy_music"
+        music_data_dir = Path(cls.get_music_data_dir())
+        music_energy_dir = music_data_dir / pot_folder
+        if not music_energy_dir.is_dir():
+            raise ValueError(f"MuSiC Energy directory '{music_energy_dir}' not found.")
+        return str(music_energy_dir)
+
+    @classmethod
+    def get_path_in(cls, tmp_dir: str | Path, symmetric: bool=False) -> str:
+        """Return path to MuSiC energy directory (for standard or symmetric energy potentials)."""
+        tmp_dir = Path(tmp_dir).absolute()
+        music_data_dir = cls.get_music_data_dir()
+        music_energy_dir = cls.get_music_energy_dir(symmetric)
+        path_in = "\n".join([
+            f"DATA    {music_data_dir}/",
+            f"POT     {music_energy_dir}/",
+            f"PDB     {tmp_dir}/",
+            f"CAT     {tmp_dir}/",
+            f"MUT     {tmp_dir}/",
+            f"OUTPUT  {tmp_dir}/",
+        ])
+        return path_in

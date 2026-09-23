@@ -38,3 +38,31 @@ def write_mutations_file(mutations_list: list[str], mutation_file_path: str | Pa
     with open(mutation_file_path, "w") as fs:
         fs.write("\n".join(mutations_list))
 
+def write_music_mutations_file(mutations_list: list[str], mutation_file_path: str | Path) -> None:
+    """Save a list of mutations to a file in MuSiC format."""
+
+    # Init dir
+    Path(mutation_file_path).parent.mkdir(parents=True, exist_ok=True)
+
+    # Constants
+    ONE_2_THREE = {
+        "A": "ALA", "C": "CYS", "D": "ASP", "E": "GLU", "F": "PHE",
+        "G": "GLY", "H": "HIS", "I": "ILE", "K": "LYS", "L": "LEU",
+        "M": "MET", "N": "ASN", "P": "PRO", "Q": "GLN", "R": "ARG",
+        "S": "SER", "T": "THR", "V": "VAL", "W": "TRP", "Y": "TYR",
+    }
+
+    # Format mutations
+    mfile: list[str] = []
+    for mutation in mutations_list:
+        if ":" in mutation:
+            raise ValueError(f"Impossible to save multiple mutation '{mutation}' to MuSiC mfile format.")
+        wt = ONE_2_THREE[mutation[0]]
+        mt = ONE_2_THREE[mutation[-1]]
+        pos = mutation[1:-1]
+        mut_str = f"{pos} {wt} {mt}"
+        mfile.append(mut_str)
+
+    # Save
+    with open(mutation_file_path, "w") as fs:
+        fs.write("\n".join(mfile))
