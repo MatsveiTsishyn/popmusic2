@@ -2,7 +2,7 @@
 # Imports ----------------------------------------------------------------------
 import argparse
 from pathlib import Path
-from pypopmusic2 import popmusic2, read_mutations_file
+from popmusic2 import popmusic2, read_mutations_file
 
 
 # CLI: dependencies ------------------------------------------------------------
@@ -41,7 +41,7 @@ def main():
     # Init arguments parser
     parser = argparse.ArgumentParser(
         description="Compute PoPMuSiC ΔΔG values (thermodynamic stability) for all single mutations and save output to a .csv file.",
-        usage="pypopmusic2 pdb_path [-o csv_path] [options]",
+        usage="popmusic2 pdb_path [-o csv_path] [options]",
         formatter_class=CustomHelpFormatter,
     )
 

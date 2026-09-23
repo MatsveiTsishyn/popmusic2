@@ -2,7 +2,7 @@
 __pycache__/
 build/
 dist/
-pypopmusic2.egg-info/
+popmusic2.egg-info/
 .vscode/
 
 # Ignore notes, experiments and tests files

@@ -1,5 +1,5 @@
 
-# PyPoPMuSiC2
+# PoPMuSiC2
 
 Python wrapper for running **PoPMuSiC-2** and **BeAtMuSiC** **mutational analysis**.  
 
@@ -20,9 +20,9 @@ We also provide a few CLI commands, see explanations with,
 xxx
 ```
 
-## PyPoPMuSiC2 executable configuration
+## PoPMuSiC2 executable configuration
 
-The package looks for a valid PoPMuSiC executable through the global CONFIG object defined in [pypopmusic2/config.py](pypopmusic2/config.py).
+The package looks for a valid PoPMuSiC executable through the global CONFIG object defined in [popmusic2/config.py](popmusic2/config.py).
 
 You can add candidate executable paths there in `CONFIG.music_candidate_paths`, or pass a custom path directly to the functions via `custom_music_path`.
 

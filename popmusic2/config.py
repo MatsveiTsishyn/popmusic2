@@ -1,12 +1,12 @@
 
 # Imports ----------------------------------------------------------------------
 from pathlib import Path
-from pypopmusic2.utils import find_executable
+from popmusic2.utils import find_executable
 
 
 # CONFIG -----------------------------------------------------------------------
 class CONFIG:
-    """Global pypopmusic2 values such as path to MuSiC executable."""
+    """Global popmusic2 values such as path to MuSiC executable."""
 
 
     # MuSiC candidate paths ----------------------------------------------------

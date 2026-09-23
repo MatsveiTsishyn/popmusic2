@@ -5,9 +5,9 @@ import subprocess
 import time
 import tempfile
 from pathlib import Path
-from pypopmusic2.utils import validate_pdb_path, validate_mutations_list, validate_csv_path, validate_sep
-from pypopmusic2.utils import list_mutations, write_map_to_csv, write_music_mutations_file, parse_pop
-from pypopmusic2.config import CONFIG
+from popmusic2.utils import validate_pdb_path, validate_mutations_list, validate_csv_path, validate_sep
+from popmusic2.utils import list_mutations, write_map_to_csv, write_music_mutations_file, parse_pop
+from popmusic2.config import CONFIG
 
 
 # Main -------------------------------------------------------------------------
