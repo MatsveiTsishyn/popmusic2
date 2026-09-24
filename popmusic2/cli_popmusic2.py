@@ -2,6 +2,7 @@
 # Imports ----------------------------------------------------------------------
 import argparse
 from pathlib import Path
+from littlecsv import CSV
 from popmusic2 import popmusic2, read_mutations_file
 
 
@@ -79,6 +80,10 @@ def main():
         help="optional directory for MuSiC output side-effect files; defaults to a temporary directory (files will be deleted).",
     )
     parser.add_argument(
+        "--show", type=int, choices=[0, 1], default=1, metavar="<0|1>",
+        help="show a sample of fist mutations output.",
+    )
+    parser.add_argument(
         "--custom_music_path", type=str, default=None, metavar="<str>",
         help="custom path to the MuSiC executable.",
     )
@@ -106,6 +111,13 @@ def main():
         music_output_dir=args.music_output_dir,
         custom_music_path=args.custom_music_path,
     )
+
+    # Show
+    if args.show:
+        df = CSV(["mutation", "DDG"], name=pdb_path.name)
+        for mut, ddg in output.items():
+            df.add_entry({"mutation": mut, "DDG": ddg})
+        df.show(5)
 
 
 # Execution --------------------------------------------------------------------
