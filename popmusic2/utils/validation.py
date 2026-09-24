@@ -40,6 +40,13 @@ def validate_interaction_chains(interaction_chains: str) -> tuple[str, str]:
         raise ValueError(f"Input interaction_chains='{interaction_chains}' should contain a different right- and left- interactor.")
     return chains_left, chains_rights
 
+def validate_chains(chains: str) -> None:
+    """Validate a set of PDB chains."""
+    if len(chains) != len(set(chains)):
+        raise ValueError(f"Input chains='{chains}' can not contain any redundent chains.")
+    if len(chains) == 0:
+        raise ValueError(f"Input chains='{chains}' should contain at least 1 chain.")
+
 def validate_mutations_list(mutaions_list: list[str], pdb_path: str, chains: str | None = None) -> None:
     """Validate consistency between mutaions_list and 3D structure file pdb_path.
         -> Also verify consistency with chains if they are given

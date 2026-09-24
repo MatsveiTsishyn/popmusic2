@@ -5,14 +5,15 @@ import subprocess
 import time
 import tempfile
 from pathlib import Path
-from popmusic2.utils import validate_pdb_path, validate_mutations_list, validate_csv_path, validate_sep, validate_music_energy_dir
-from popmusic2.utils import list_mutations, write_map_to_csv, parse_pop, write_mutations_file
+from popmusic2.utils import validate_pdb_path, validate_mutations_list, validate_csv_path, validate_sep, validate_music_energy_dir, validate_chains
+from popmusic2.utils import list_mutations, write_map_to_csv, parse_pop, write_mutations_file, filter_pdb_chains
 from popmusic2.config import CONFIG
 
 
 # Main -------------------------------------------------------------------------
 def popmusic2(
         pdb_path: str | Path,
+        chains: str | None = None,
         symmetric: bool = False,
         mutations_list: list[str] | None = None,
         log_steps: bool = True,
@@ -26,6 +27,7 @@ def popmusic2(
 
     Args:
         pdb_path: Input PDB structure.
+        chains: If set, first filter PDB on these chains before computing PoPMuSiC2 mutational scores.
         symmetric: Set True to run PoPMuSiC2-symmetric
         mutations_list: Optional mutation list. Entries use the format "A123V" for a
             single substitution or multiple ones as "A123V:K204L". If omitted, all
@@ -46,12 +48,14 @@ def popmusic2(
     T1 = time.time()
     validate_pdb_path(pdb_path)
     if mutations_list is None:
-        mutations_list = list_mutations(pdb_path)
-    validate_mutations_list(mutations_list, pdb_path)
+        mutations_list = list_mutations(pdb_path, chains)
+    validate_mutations_list(mutations_list, pdb_path, chains)
     if save_path is not None:
         validate_sep(sep)
         validate_csv_path(save_path)
     validate_music_energy_dir(CONFIG.get_music_energy_dir(symmetric=symmetric))
+    if chains is not None:
+        validate_chains(chains)
 
     # List single mutations
     single_mutations_list: list[str] = []
@@ -64,6 +68,8 @@ def popmusic2(
     music_path = CONFIG.get_music_executable_path(custom_music_path)  # algo will config it globally
     pdb_path = Path(pdb_path).absolute()
     pdb_name = pdb_path.name.removesuffix(".pdb")
+    if chains is not None:
+        pdb_name = f"{pdb_name}_{chains}"
     if log_steps:
         print(f"Run PoPMuSiC2 on {len(mutations_list)} mutations on '{pdb_name}' (symmetric={symmetric}): ")
 
@@ -102,7 +108,10 @@ def popmusic2(
         tmp_pdb_path = io_dir / f"{pdb_name}.pdb"
         if log_debug:
             print(f"   - Copy PDB file to '{tmp_pdb_path}'")
-        tmp_pdb_path.write_bytes(pdb_path.read_bytes())
+        if chains is None:
+            tmp_pdb_path.write_bytes(pdb_path.read_bytes())
+        else:
+            filter_pdb_chains(pdb_path, chains, tmp_pdb_path)
 
         # Run MuSiC
         if log_steps:

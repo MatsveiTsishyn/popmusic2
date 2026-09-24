@@ -52,12 +52,16 @@ def main():
         help="path to input 3D structure file (.pdb).",
     )
     parser.add_argument(
-        "--symmetric", type=int, choices=[0, 1], default=0, metavar="<0|1>",
-        help="set to 1 to run the symmetric PoPMuSiC2 mode.",
-    )
-    parser.add_argument(
         "-o", "--output_path", type=str, default=None, metavar="<str>",
         help="output .csv file path. Set to './<pdb_name>_popmusic2.csv' by default.",
+    )
+    parser.add_argument(
+        "-c", "--chains", type=str, default=None, metavar="<str>",
+        help="if set, first filter PDB on these chains before computing PoPMuSiC2 mutational scores.",
+    )
+    parser.add_argument(
+        "--symmetric", type=int, choices=[0, 1], default=0, metavar="<0|1>",
+        help="set to 1 to run the symmetric PoPMuSiC2 mode.",
     )
     parser.add_argument(
         "-s", "--separator", type=str, default=",", metavar="<str>",
@@ -93,7 +97,10 @@ def main():
     pdb_path = Path(args.pdb_path)
     output_path = args.output_path
     if output_path is None:
-        output_path = f"./{pdb_path.name.removesuffix('.pdb')}_popmusic2.csv"
+        pdb_name = pdb_path.name.removesuffix('.pdb')
+        if args.chains is not None:
+            pdb_name = f"{pdb_name}_{args.chains}"
+        output_path = f"./{pdb_name}_popmusic2.csv"
     output_path = Path(output_path)
     mutations_list = None
     if args.mfile is not None:
@@ -102,6 +109,7 @@ def main():
     # Run popmusic2
     output = popmusic2(
         pdb_path,
+        chains=args.chains,
         symmetric=bool(args.symmetric),
         mutations_list=mutations_list,
         log_steps=bool(args.verbose),
@@ -114,9 +122,10 @@ def main():
 
     # Show
     if args.show:
-        df = CSV(["mutation", "DDG"], name=pdb_path.name)
+        popmusic2_property = "PoPMuSiC2-sym" if args.symmetric else "PoPMuSiC2"
+        df = CSV(["mutation", popmusic2_property], name=pdb_path.name)
         for mut, ddg in output.items():
-            df.add_entry({"mutation": mut, "DDG": ddg})
+            df.add_entry({"mutation": mut, popmusic2_property: ddg})
         df.show(5)
 
 
