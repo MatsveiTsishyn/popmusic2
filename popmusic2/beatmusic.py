@@ -84,6 +84,8 @@ def beatmusic(
     out_left: dict[str, float] = {}
     out_right: dict[str, float] = {}
     if len(mutations_left):
+        if log_steps:
+            print(" -> Run PoPMuSiC2 on left-interactor: ")
         out_left = popmusic2(
             pdb_path, chains=left_chains, mutations_list=mutations_left,
             log_steps=log_steps, log_debug=log_debug,
@@ -91,6 +93,8 @@ def beatmusic(
             custom_music_path=custom_music_path,
         )
     if len(mutations_right):
+        if log_steps:
+            print(" -> Run PoPMuSiC2 on right-interactor: ")
         out_right = popmusic2(
             pdb_path, chains=right_chains, mutations_list=mutations_right,
             log_steps=log_steps, log_debug=log_debug,
@@ -98,6 +102,8 @@ def beatmusic(
             custom_music_path=custom_music_path,
         )
     out_interactors = out_left | out_right
+    if log_steps:
+        print(" -> Run PoPMuSiC2 on complex: ")
     out_complex = popmusic2(
         pdb_path, chains=None, mutations_list=single_mutations_list,
         log_steps=log_steps, log_debug=log_debug,
@@ -115,7 +121,7 @@ def beatmusic(
     ddgb_map: dict[str, float] = {}
     for mutation in mutations_list:
         single_mutations = mutation.split(":")
-        ddgb_map[mutation] = sum([ddgb_map_single[m] for m in single_mutations])
+        ddgb_map[mutation] = round(sum([ddgb_map_single[m] for m in single_mutations]), 6)
 
     # Save output to a .csv file
     if save_path is not None:

@@ -32,6 +32,7 @@ urls = { Homepage = "https://github.com/MatsveiTsishyn/popmusic2" }
 popmusic2 = "popmusic2.cli_popmusic2:main"
 beatmusic = "popmusic2.cli_beatmusic:main"
 popmusic2_complete_csv = "popmusic2.cli_popmusic2_complete_csv:main"
+beatmusic_complete_csv = "popmusic2.cli_beatmusic_complete_csv:main"
 music_help = "popmusic2.cli_music_help:main"
 music_cat = "popmusic2.cli_music_cat:main"
 
