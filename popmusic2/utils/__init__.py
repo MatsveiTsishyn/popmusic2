@@ -5,5 +5,6 @@ from .validation import (
     list_mutations, validate_sep, validate_csv_path, validate_music_energy_dir,
 )
 from .mutations_file import read_mutations_file, write_mutations_file
-from .write_map_to_csv import write_map_to_csv
+from .write_map_to_csv import write_map_to_csv, write_table_to_csv
 from .parse_pop import parse_pop
+from .parse_cat import parse_cat

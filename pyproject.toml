@@ -15,7 +15,9 @@ authors = [
 ]
 requires-python = ">=3.10"
 license = "MIT"
-dependencies = []
+dependencies = [
+  "littlecsv"
+]
 classifiers = [
   "Programming Language :: Python :: 3",
   "Programming Language :: C++",
@@ -29,6 +31,7 @@ urls = { Homepage = "https://github.com/MatsveiTsishyn/popmusic2" }
 [project.scripts]
 popmusic2 = "popmusic2.cli_popmusic2:main"
 music_help = "popmusic2.cli_music_help:main"
+music_cat = "popmusic2.cli_music_cat:main"
 
 # Setup pip Package ------------------------------------------------------------
 # this finds all the python packages recursively
