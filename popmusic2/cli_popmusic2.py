@@ -99,7 +99,7 @@ def main():
     if args.mfile is not None:
         mutations_list = read_mutations_file(args.mfile)
 
-    # Run foldx_ddg
+    # Run popmusic2
     output = popmusic2(
         pdb_path,
         symmetric=bool(args.symmetric),

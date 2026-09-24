@@ -156,7 +156,8 @@ def popmusic2(
     # Save output to a .csv file
     if save_path is not None:
         try:  # do not kill execution if only IO failed
-            write_map_to_csv(ddg_map, save_path, key_name="mutation", value_name="DDG", sep=sep)
+            popmusic2_property = "PoPMuSiC2-sym" if symmetric else "PoPMuSiC2"
+            write_map_to_csv(ddg_map, save_path, key_name="mutation", value_name=popmusic2_property, sep=sep)
             if log_steps:
                 print(f" - Saved PoPMuSiC2 results to '{save_path}'")
         except Exception as err:
