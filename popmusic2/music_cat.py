@@ -3,6 +3,7 @@
 import subprocess
 import tempfile
 from pathlib import Path
+import shutil
 from popmusic2.utils import validate_pdb_path
 from popmusic2.utils import parse_cat, write_table_to_csv
 from popmusic2.config import CONFIG
@@ -12,6 +13,7 @@ from popmusic2.config import CONFIG
 def music_cat(
         pdb_path: str | Path,
         save_path: str | Path | None = None,
+        cat_path: str | Path | None = None,
         sep: str = ",",
         custom_music_path: str | Path | None = None,
     ) -> list[dict[str, str | float]]:
@@ -20,6 +22,7 @@ def music_cat(
     Args:
         pdb_path: Input PDB structure.
         save_path: Optional '.csv' path to save CAT info
+        cat_path: Opional path to initial MuSiC CAT file
         sep: Separator in the '.csv' file save_path
         custom_music_path: Optional path to a MuSiC executable.
 
@@ -41,7 +44,7 @@ def music_cat(
         # Generate path.in file
         tmp_dir = Path(tmp_dir)
         tmp_dir.mkdir(parents=True, exist_ok=True)
-        cat_path = tmp_dir / f"{pdb_name}.cat"
+        tmp_cat_path = tmp_dir / f"{pdb_name}.cat"
         path_in_path = tmp_dir / "path.in"
         path_in_str = CONFIG.get_path_in(tmp_dir)
         with open(path_in_path, "w") as fs:
@@ -69,7 +72,12 @@ def music_cat(
             raise RuntimeError(f"MuSiC failed with exit code {process.returncode}.")
 
         # Parse CAT
-        cat = parse_cat(cat_path)
+        cat = parse_cat(tmp_cat_path)
+
+        # Save initial MuSiC CAT file
+        if cat_path:
+            Path(cat_path).parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(tmp_cat_path, cat_path)
 
     # Save cat to .csv
     if save_path is not None:

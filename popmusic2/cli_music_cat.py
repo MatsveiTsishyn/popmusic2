@@ -56,6 +56,10 @@ def main():
         help="output .csv file path. Set to './<pdb_name>_cat.csv' by default.",
     )
     parser.add_argument(
+        "-c", "--cat_path", type=str, default=None, metavar="<str>",
+        help="output file path for raw MuSiC CAT file.",
+    )
+    parser.add_argument(
         "-s", "--separator", type=str, default=",", metavar="<str>",
         help="separator used in the .csv file.",
     )
@@ -80,6 +84,7 @@ def main():
     output = music_cat(
         pdb_path,
         save_path=output_path,
+        cat_path=args.cat_path,
         sep=args.separator,
         custom_music_path=args.custom_music_path,
     )
