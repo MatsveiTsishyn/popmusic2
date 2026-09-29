@@ -42,7 +42,7 @@ def beatmusic(
 
     # Define constants
     V  = 1.25
-    W1, W2 = (1.0, -0.7)
+    W1, W2 = 1.0, -0.7
     
     # Guardians
     T1 = time.time()
@@ -113,8 +113,8 @@ def beatmusic(
 
     # Aggregate values
     ddgb_map_single: dict[str, float] = {
-        mut: V*(W1*DDG_complex + W2*out_interactors[mut])
-        for mut, DDG_complex in out_complex.items()
+        mut: V*(W1*DDGb_complex + W2*out_interactors[mut])
+        for mut, DDGb_complex in out_complex.items()
     }
 
     # Collects mutations values

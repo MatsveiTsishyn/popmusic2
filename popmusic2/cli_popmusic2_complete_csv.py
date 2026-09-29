@@ -64,6 +64,10 @@ def main():
         help="property in the .csv that indentifies output PoPMuSiC value. Default 'PoPMuSiC2' or 'PoPMuSiC2-sym'.",
     )
     parser.add_argument(
+        "-c", "--chains", type=str, default=None, metavar="<str>",
+        help="if set, first filter PDB on these chains before computing PoPMuSiC2 mutational scores.",
+    )
+    parser.add_argument(
         "--symmetric", type=int, choices=[0, 1], default=0, metavar="<0|1>",
         help="set to 1 to run the symmetric PoPMuSiC2 mode.",
     )
@@ -104,6 +108,7 @@ def main():
     # Run popmusic2
     output = popmusic2(
         args.pdb_path,
+        chains=args.chains,
         symmetric=bool(args.symmetric),
         log_steps=bool(args.verbose),
         log_debug=bool(args.log_debug),
