@@ -15,6 +15,7 @@ def beatmusic(
         mutations_list: list[str] | None = None,
         log_steps: bool = True,
         log_debug: bool = False,
+        custom_potentials_dir: str | Path | None = None,
         save_path: str | Path | None = None,
         sep: str=",",
         music_output_dir: str | Path | None = None,
@@ -30,6 +31,7 @@ def beatmusic(
             possible single missense mutations in the structure are evaluated.
         log_steps: Print progress messages.
         log_debug: Print MuSiC execution.
+        custom_potentials_dir: path to a directory with custom potentials files (such as 'sd.enc')
         save_path: Optional path to a '.csv' file to save output values
         sep: Separator in the '.csv' file save_path
         music_output_dir: Optional path to directory for MuSiC outputs (otherwise side-effects outputs will be deleted)
@@ -55,7 +57,7 @@ def beatmusic(
     if save_path is not None:
         validate_sep(sep)
         validate_csv_path(save_path)
-    validate_music_energy_dir(CONFIG.get_music_energy_dir())
+    validate_music_energy_dir(CONFIG.get_music_energy_dir(custom_potentials_dir=custom_potentials_dir))
 
     # List single mutations
     single_mutations_list: list[str] = []
@@ -90,6 +92,7 @@ def beatmusic(
             pdb_path, chains=left_chains, mutations_list=mutations_left,
             log_steps=log_steps, log_debug=log_debug,
             music_output_dir=music_output_dir,
+            custom_potentials_dir=custom_potentials_dir,
             custom_music_path=custom_music_path,
         )
     if len(mutations_right):
@@ -99,6 +102,7 @@ def beatmusic(
             pdb_path, chains=right_chains, mutations_list=mutations_right,
             log_steps=log_steps, log_debug=log_debug,
             music_output_dir=music_output_dir,
+            custom_potentials_dir=custom_potentials_dir,
             custom_music_path=custom_music_path,
         )
     out_interactors = out_left | out_right
@@ -108,6 +112,7 @@ def beatmusic(
         pdb_path, chains=None, mutations_list=single_mutations_list,
         log_steps=log_steps, log_debug=log_debug,
         music_output_dir=music_output_dir,
+        custom_potentials_dir=custom_potentials_dir,
         custom_music_path=custom_music_path,
     )
 

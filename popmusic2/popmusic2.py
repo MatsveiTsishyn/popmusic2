@@ -18,6 +18,7 @@ def popmusic2(
         mutations_list: list[str] | None = None,
         log_steps: bool = True,
         log_debug: bool = False,
+        custom_potentials_dir: str | Path | None = None,
         save_path: str | Path | None = None,
         sep: str=",",
         music_output_dir: str | Path | None = None,
@@ -34,6 +35,7 @@ def popmusic2(
             possible single missense mutations in the structure are evaluated.
         log_steps: Print progress messages.
         log_debug: Print MuSiC execution.
+        custom_potentials_dir: path to a directory with custom potentials files (such as 'sd.enc')
         save_path: Optional path to a '.csv' file to save output values
         sep: Separator in the '.csv' file save_path
         music_output_dir: Optional path to directory for MuSiC outputs (otherwise side-effects outputs will be deleted)
@@ -53,7 +55,7 @@ def popmusic2(
     if save_path is not None:
         validate_sep(sep)
         validate_csv_path(save_path)
-    validate_music_energy_dir(CONFIG.get_music_energy_dir(symmetric=symmetric))
+    validate_music_energy_dir(CONFIG.get_music_energy_dir(symmetric=symmetric, custom_potentials_dir=custom_potentials_dir))
     if chains is not None:
         validate_chains(chains)
 
@@ -93,7 +95,7 @@ def popmusic2(
             print(f" - Create MuSiC input files in directory '{io_dir}' ...")
 
         # Generate path.in file
-        path_in_str = CONFIG.get_path_in(io_dir, symmetric=symmetric)
+        path_in_str = CONFIG.get_path_in(io_dir, symmetric=symmetric, custom_potentials_dir=custom_potentials_dir)
         if log_debug:
             print(f"   - Generate path.in file to '{path_in_path}'")
         with open(path_in_path, "w") as fs:

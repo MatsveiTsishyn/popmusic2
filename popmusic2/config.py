@@ -58,21 +58,24 @@ class CONFIG:
         return str(music_data_dir)
 
     @classmethod
-    def get_music_energy_dir(cls, symmetric: bool=False) -> str:
+    def get_music_energy_dir(cls, symmetric: bool=False, custom_potentials_dir: str | Path | None = None) -> str:
         """Return path to MuSiC energy directory (for standard or symmetric energy potentials)."""
-        pot_folder = "energy_music_sym" if symmetric else "energy_music"
-        music_data_dir = Path(cls.get_music_data_dir())
-        music_energy_dir = music_data_dir / pot_folder
+        if custom_potentials_dir is None:
+            pot_folder = "energy_music_sym" if symmetric else "energy_music"
+            music_data_dir = Path(cls.get_music_data_dir())
+            music_energy_dir = music_data_dir / pot_folder
+        else:
+            music_energy_dir = Path(custom_potentials_dir).expanduser().resolve()
         if not music_energy_dir.is_dir():
             raise ValueError(f"MuSiC Energy directory '{music_energy_dir}' not found.")
         return str(music_energy_dir)
 
     @classmethod
-    def get_path_in(cls, tmp_dir: str | Path, symmetric: bool=False) -> str:
+    def get_path_in(cls, tmp_dir: str | Path, symmetric: bool=False, custom_potentials_dir: str | Path | None = None) -> str:
         """Return path to MuSiC energy directory (for standard or symmetric energy potentials)."""
         tmp_dir = Path(tmp_dir).absolute()
         music_data_dir = cls.get_music_data_dir()
-        music_energy_dir = cls.get_music_energy_dir(symmetric)
+        music_energy_dir = cls.get_music_energy_dir(symmetric=symmetric, custom_potentials_dir=custom_potentials_dir)
         path_in = "\n".join([
             f"DATA    {music_data_dir}/",
             f"POT     {music_energy_dir}/",

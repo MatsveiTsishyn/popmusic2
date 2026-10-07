@@ -173,13 +173,13 @@ def validate_music_energy_dir(music_energy_dir: str | Path) -> None:
     # Search PM_coeff.in
     coeff_path = Path(music_energy_dir) / "PM_coeff.in"
     if not coeff_path.is_file():
-        raise FileNotFoundError(f"No MuSiC-energy coefficients file found in '{music_energy_dir}'.")
-    sa_path = Path(music_energy_dir) / "sa.enc"
-    if not sa_path.is_file():
-        raise FileNotFoundError(f"No MuSiC-energy sa-potential ('sa.enc') file found in '{music_energy_dir}'.")
-    if not has_at_least_n_lines(sa_path, 200):
+        raise FileNotFoundError(f"No MuSiC-energy coefficients ('PM_coeff.in') file found in '{music_energy_dir}'.")
+    sd_path = Path(music_energy_dir) / "sd.enc"
+    if not sd_path.is_file():
+        raise FileNotFoundError(f"No MuSiC-energy sd-potential ('sd.enc') file found in '{music_energy_dir}'.")
+    if not has_at_least_n_lines(sd_path, 200):
         raise ValueError(
-            f"Invalid MuSiC 'sa.enc' potential energy file '{sa_path}': \n"
+            f"Invalid MuSiC 'sd.enc' potential energy file '{sd_path}': \n"
             f"file contains less than 200 lines, which indicates that potentials energies files are probably empty."
         )
 

@@ -80,6 +80,10 @@ def main():
         help="enable logging.",
     )
     parser.add_argument(
+        "-pot", "--custom_potentials_dir", type=str, default=None, metavar="<str>",
+        help="path to a directory with custom potentials files (such as 'sd.enc').",
+    )
+    parser.add_argument(
         "-d", "--log_debug", type=int, choices=[0, 1], default=0, metavar="<0|1>",
         help="print MuSiC raw output for debugging.",
     )
@@ -112,6 +116,7 @@ def main():
         symmetric=bool(args.symmetric),
         log_steps=bool(args.verbose),
         log_debug=bool(args.log_debug),
+        custom_potentials_dir=args.custom_potentials_dir,
         music_output_dir=args.music_output_dir,
         custom_music_path=args.custom_music_path,
     )
