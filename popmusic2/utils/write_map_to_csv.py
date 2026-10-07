@@ -43,6 +43,7 @@ def write_table_to_csv(
     """Write a table (list of dictionaries) to a '.csv' file."""
 
     # Guardians
+    csv_path = str(csv_path)
     validate_csv_path(csv_path)
     validate_sep(sep)
 

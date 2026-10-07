@@ -84,6 +84,10 @@ def main():
         help="Optionally specify a path to a mutations_file (1 mutations by line such as 'MA13H' or 'MA13H:LA15G').",
     )
     parser.add_argument(
+        "--all_potentials", action="store_true",
+        help="output all potentials ΔΔW values.",
+    )
+    parser.add_argument(
         "--music_output_dir", type=str, default=None, metavar="<str>",
         help="optional directory for MuSiC output side-effect files; defaults to a temporary directory (files will be deleted).",
     )
@@ -118,6 +122,7 @@ def main():
         mutations_list=mutations_list,
         log_steps=bool(args.verbose),
         log_debug=bool(args.log_debug),
+        all_potentials=args.all_potentials,
         custom_potentials_dir=args.custom_potentials_dir,
         save_path=output_path,
         sep=args.separator,
@@ -127,10 +132,14 @@ def main():
 
     # Show
     if args.show:
-        popmusic2_property = "PoPMuSiC2-sym" if args.symmetric else "PoPMuSiC2"
-        df = CSV(["mutation", popmusic2_property], name=pdb_path.name)
-        for mut, ddg in output.items():
-            df.add_entry({"mutation": mut, popmusic2_property: ddg})
+        if not args.all_potentials:
+            popmusic2_property = "PoPMuSiC2-sym" if args.symmetric else "PoPMuSiC2"
+            df = CSV(["mutation", popmusic2_property], name=pdb_path.name)
+            for mut, ddg in output.items():
+                df.add_entry({"mutation": mut, popmusic2_property: ddg})
+        else:
+            header = list(output[0].keys())
+            df = CSV(header, name=pdb_path.name).add_entries(output)
         df.show(5)
 
 

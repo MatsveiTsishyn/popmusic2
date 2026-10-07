@@ -9,3 +9,4 @@ from .write_map_to_csv import write_map_to_csv, write_table_to_csv
 from .parse_pop import parse_pop
 from .parse_cat import parse_cat
 from .filter_pdb_chains import filter_pdb_chains
+from .parse_potentials_output import parse_potentials_output
