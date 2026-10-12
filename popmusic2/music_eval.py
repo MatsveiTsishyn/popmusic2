@@ -48,7 +48,6 @@ def music_eval(
     if save_path is not None:
         validate_sep(sep)
         validate_csv_path(save_path)
-    validate_music_energy_dir(CONFIG.get_music_energy_dir(symmetric=symmetric, custom_potentials_dir=custom_potentials_dir))
     if chains is not None:
         validate_chains(chains)
 

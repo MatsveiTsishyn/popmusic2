@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 # Pip Package Metadata ---------------------------------------------------------
 [project]
 name = "popmusic2"
-version = "1.0.1"
+version = "1.0.2"
 description = "Run mutational DMS analysis with PoPMuSiC-2 and BeAtMuSiC."
 readme = "README.md"
 authors = [
