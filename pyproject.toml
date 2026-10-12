@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 # Pip Package Metadata ---------------------------------------------------------
 [project]
 name = "popmusic2"
-version = "1.0.0"
+version = "1.0.1"
 description = "Run mutational DMS analysis with PoPMuSiC-2 and BeAtMuSiC."
 readme = "README.md"
 authors = [
@@ -35,6 +35,7 @@ popmusic2_complete_csv = "popmusic2.cli_popmusic2_complete_csv:main"
 beatmusic_complete_csv = "popmusic2.cli_beatmusic_complete_csv:main"
 music_help = "popmusic2.cli_music_help:main"
 music_cat = "popmusic2.cli_music_cat:main"
+music_eval = "popmusic2.cli_music_eval:main"
 
 # Setup pip Package ------------------------------------------------------------
 # this finds all the python packages recursively
